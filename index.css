@@ -5,6 +5,10 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+/* body {
+    border: 4px dashed goldenrod;
+} */
+
 
 #header {
     width: 100%;
@@ -45,8 +49,8 @@ form {
     /* border: 2px dashed blue; */
     display: flex;
     justify-content: center;
-    gap: 1em;
-    margin: 1em 0;
+    padding: 1em 0;
+    gap: 0.5em;
 }
 
 form input {
@@ -64,11 +68,11 @@ form button {
 
 
 
-main ul {
+main .has-items {
     border: 2px solid green;
-    max-width: 70%;
+    height: 80vh;
+    max-width: 80%;
     margin: 0 auto;
-    min-height: 92vh;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 50px);
@@ -76,7 +80,19 @@ main ul {
     gap: 1em;
     list-style: none;
     padding: 1em;
+    /* background-image: url(./images/emptyAnimation.webm); */
 }
+
+.empty-list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* main ul video {
+    width: 100%;
+    height: auto;
+} */
 
 main ul li {
     border: 0.5px solid rgba(0, 0, 0, 0.4);
@@ -93,6 +109,10 @@ main ul li:hover {
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
+main ul li input[type="checkbox"] {
+    background-color: red;
+}
+
 main ul li input[type="checkbox"], button {
     cursor: pointer;
 }
@@ -105,4 +125,10 @@ main ul li button {
     outline: none;
     border-style: none;
     background-color: #bbb;
+}
+
+
+.completed {
+    text-decoration: line-through;
+    color: #bbb;
 }
