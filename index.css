@@ -68,8 +68,21 @@ form button {
 
 
 
-main .has-items {
-    border: 2px solid green;
+
+
+main .emptyList {
+    /* border: 2px solid red; */
+    height: 80vh;
+    max-width: 80%;
+    margin: 0 auto;
+    list-style: none;
+    padding: 1em;
+    background-image: url(./images/empty-box.png);
+    background-repeat: no-repeat; 
+    background-position: center;
+}
+
+main .listContainer {
     height: 80vh;
     max-width: 80%;
     margin: 0 auto;
@@ -80,7 +93,6 @@ main .has-items {
     gap: 1em;
     list-style: none;
     padding: 1em;
-    /* background-image: url(./images/emptyAnimation.webm); */
 }
 
 .empty-list {
@@ -94,7 +106,7 @@ main .has-items {
     height: auto;
 } */
 
-main ul li {
+main .listContainer li {
     border: 0.5px solid rgba(0, 0, 0, 0.4);
     display: flex;
     align-items: center;
@@ -104,20 +116,20 @@ main ul li {
     cursor: pointer;
 }
 
-main ul li:hover {
+main .listContainer li:hover {
     transform: scale(1.02);
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
-main ul li input[type="checkbox"] {
+main .listContainer li input[type="checkbox"] {
     background-color: red;
 }
 
-main ul li input[type="checkbox"], button {
+main .listContainer li input[type="checkbox"], button {
     cursor: pointer;
 }
 
-main ul li button {
+main .listContainer li button {
     padding: 0.3em;
     width: 25px;
     height: 25px;

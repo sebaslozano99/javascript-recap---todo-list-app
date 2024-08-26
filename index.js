@@ -3,30 +3,30 @@ const formEl = document.querySelector("form");
 const inputEl = formEl.firstElementChild;
 let usersInput;
 
-
-function updateListStyle() {
-    // Remove existing classes
-    listContainerEl.classList.remove('empty-list', 'has-items');
-    
-    // Check if the ul has any li elements
-    if (listContainerEl.getElementsByTagName('li').length > 0) {
-        listContainerEl.classList.remove("empty-list");
-        listContainerEl.classList.add('has-items');
-    } else {
-        listContainerEl.classList.add('empty-list');
-        const image = document.createElement("img");
-        image.src = "./images/empty-box.png";
-        listContainerEl.append(image);
-    }
-  }
-
-  // Initial check on page load
-  updateListStyle();
-
-
 inputEl.addEventListener("keyup", (e) => {
     usersInput = e.target.value;
 })
+
+
+
+//funcs that adds a background image when there are not any items yet
+function backgroundImage() {
+    if(!listContainerEl.children.length) {
+        // listContainerEl.style.backgroundImage = "url(./images/empty-box.png)";
+        listContainerEl.classList.remove("listContainer");
+        listContainerEl.classList.add("emptyList");
+    }
+
+    if(listContainerEl.children.length){
+        listContainerEl.classList.remove("emptyList");
+        listContainerEl.classList.add("listContainer");
+
+    }
+}
+
+backgroundImage();
+
+
 
 
 // Add new Task function
@@ -58,8 +58,9 @@ formEl.addEventListener("submit", (e) => {
     newLiEl.append(deleteBtnEl);
     
     listContainerEl.append(newLiEl);
-
     inputEl.value = "";
+    backgroundImage(); //After each new item submitted We call the function that checks if list is empty or not to add or remove background
+
 
 })
 
@@ -67,7 +68,7 @@ formEl.addEventListener("submit", (e) => {
 
 
 
-// We add eventListener to the checkboxes using event delegation - 
+// We add eventListener to the checkboxes using event delegation - mark as completed or unmark it
 
 listContainerEl.addEventListener("click", (e) => {
     const target = e.target;
@@ -89,6 +90,7 @@ listContainerEl.addEventListener("click", (e) => {
     if(target.tagName === "BUTTON") {
         console.log("button clicked!");
         target.parentElement.remove();
+        backgroundImage();
     }
 })
 
