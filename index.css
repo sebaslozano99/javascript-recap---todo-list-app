@@ -121,15 +121,33 @@ main .listContainer li:hover {
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
+/* style applied when task is completed  */
+.completed { 
+    text-decoration: line-through;
+    color: #bbb;
+}
+
+
+
 main .listContainer li input[type="checkbox"] {
     background-color: red;
 }
 
-main .listContainer li input[type="checkbox"], button {
-    cursor: pointer;
+
+
+
+
+
+
+main .listContainer li div{
+    /* border: 1px solid red; */
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
 }
 
-main .listContainer li button {
+
+main .listContainer li div button {
     padding: 0.3em;
     width: 25px;
     height: 25px;
@@ -137,10 +155,19 @@ main .listContainer li button {
     outline: none;
     border-style: none;
     background-color: #bbb;
+    cursor: pointer;
+    transition: all ease-in .3s;
+}
+
+main .listContainer li div button img{
+    width: 100%;
+    pointer-events: none;
+    /* border: 1px solid red; */
+
 }
 
 
-.completed {
-    text-decoration: line-through;
-    color: #bbb;
+.updateActive {
+    background-color: rgb(206, 225, 255);
+    /* border: 10px solid red; */
 }

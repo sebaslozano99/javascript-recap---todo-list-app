@@ -2,11 +2,13 @@ const listContainerEl = document.querySelector(".listContainer");
 const formEl = document.querySelector("form");
 const inputEl = formEl.firstElementChild;
 let usersInput;
+let isUpdating = false;
 
 inputEl.addEventListener("keyup", (e) => {
     usersInput = e.target.value;
 })
 
+document.addEventListener("DOMContentLoaded", backgroundImage);
 
 
 //funcs that adds a background image when there are not any items yet
@@ -24,12 +26,8 @@ function backgroundImage() {
     }
 }
 
-backgroundImage();
 
-
-
-
-// Add new Task function
+// Func -- Add new Task
 formEl.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -38,7 +36,21 @@ formEl.addEventListener("submit", (e) => {
         return;
     }
 
-    
+
+    if(!isUpdating) {
+        addNewListItem();
+    }
+    else{
+        updateListItem();
+    }
+
+})
+
+
+
+// Func -- Add new list item 
+
+function addNewListItem(){
     const newLiEl = document.createElement("li");
     const checkBoxEl = document.createElement("input");
     checkBoxEl.setAttribute("type", "checkbox");
@@ -46,6 +58,7 @@ formEl.addEventListener("submit", (e) => {
     const usersTask = document.createElement("p");
     usersTask.innerText = String(usersInput);
 
+    const buttonsContainer = document.createElement("div");
     const deleteBtnEl = document.createElement("button");
     deleteBtnEl.innerText = "X";
     // deleteBtnEl.addEventListener("click", (e) => {
@@ -53,30 +66,46 @@ formEl.addEventListener("submit", (e) => {
     //     targetListItem.remove();
     // })
 
+    const updateBtlEl = document.createElement("button");
+    const iconEl = document.createElement("img");
+    iconEl.src = "./images/refresh.png";
+    iconEl.alt = "update";
+    updateBtlEl.append(iconEl);
+    updateBtlEl.classList.add("updateBtn");
+
+    buttonsContainer.append(deleteBtnEl, updateBtlEl);
+
     newLiEl.append(checkBoxEl);
     newLiEl.append(usersTask);
-    newLiEl.append(deleteBtnEl);
+    newLiEl.append(buttonsContainer);
+
     
     listContainerEl.append(newLiEl);
     inputEl.value = "";
     backgroundImage(); //After each new item submitted We call the function that checks if list is empty or not to add or remove background
-
-
-})
-
+}
 
 
 
-
-// We add eventListener to the checkboxes using event delegation - mark as completed or unmark it
+// Func -- mark as completed or unmark it -- We add eventListener to the checkboxes using event delegation
 
 listContainerEl.addEventListener("click", (e) => {
     const target = e.target;
 
     // if(target.tagName === "BUTTON") we toggle the ".completed" css class on the paragraph element inside the list item
     if(target.matches("input")){
+        const updateBtnEl = target.parentElement.children[2].children[1];
         const pEl  = target.parentElement.children[1];
         pEl.classList.toggle("completed");
+
+        if(pEl.classList.contains("completed")){
+            updateBtnEl.style.backgroundColor = "#ddd";
+            updateBtnEl.disabled = true;
+        }
+        else{
+            updateBtnEl.style.backgroundColor = "#bbb";
+            updateBtnEl.disabled = false;
+        }
     }
 
 })
@@ -87,11 +116,63 @@ listContainerEl.addEventListener("click", (e) => {
 listContainerEl.addEventListener("click", (e) => {
     const target = e.target;
 
-    if(target.tagName === "BUTTON") {
-        console.log("button clicked!");
-        target.parentElement.remove();
+    if(target.tagName === "BUTTON" && !target.classList.contains("updateBtn")) {
+        target.parentElement.parentElement.remove();
         backgroundImage();
+    }else {
+        return;
     }
 })
 
 
+
+
+
+
+//add event listener to the updateBtn - when clicked, we toggle classList to let user know they can update the task in the item, we change the "isUpdating" variable - if "isUpdating" is set to TRUE, we pick the current text from the listItem and put it in the input and we focus it so that user knows He can modify now
+
+listContainerEl.addEventListener("click", (e) => {
+    const target = e.target;
+    
+    
+    if(target.matches(".updateBtn")){
+        document.querySelector(".addItem").innerText = "Modify";  
+        target.parentElement.parentElement.classList.toggle("updateActive");
+        isUpdating = !isUpdating;
+
+
+        if(isUpdating) {
+            inputEl.focus();
+            inputEl.value = target.parentElement.parentElement.children[1].textContent;
+        }
+        else{
+            inputEl.value = "";
+            document.querySelector(".addItem").innerText = "Add";  
+
+        }
+    }
+    
+})
+
+// Func -- Update List Item  --- 
+
+function updateListItem(){
+    let arrayFromList = Array.from(listContainerEl.children);
+    let index;
+
+    for(let i = 0; i < arrayFromList.length; i++) {
+        if(arrayFromList[i].classList.contains("updateActive")) {
+            index = i;
+        }
+    }
+
+    let pEl = arrayFromList[index].children[1];
+    pEl.innerText = usersInput;
+    inputEl.value = "";
+    isUpdating = !isUpdating;
+    document.querySelector(".addItem").innerText = "Add";  
+
+    for(let i = 0; i < arrayFromList.length; i++){ 
+        arrayFromList[i].classList.remove("updateActive");
+    }
+}
