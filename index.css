@@ -171,3 +171,16 @@ main .listContainer li div button img{
     background-color: rgb(206, 225, 255);
     /* border: 10px solid red; */
 }
+
+
+
+
+
+
+/* Filtering items when completed  */
+
+
+/* when user filters only "completed", we'll hide the pending items, and vicesversa   */
+main .listContainer li .filter--hide {
+    display: none;
+}

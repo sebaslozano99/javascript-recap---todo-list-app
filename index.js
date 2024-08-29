@@ -2,14 +2,21 @@
 
 const listContainerEl = document.querySelector(".listContainer");
 const formEl = document.querySelector("form");
+const selectEl = document.querySelector("#filter");
 const inputEl = formEl.firstElementChild;
+const listContainerItems = listContainerEl.children;
+
+
+//Variables
+let tracker = []; 
 let usersInput;
 let isUpdating = false;
 
 
 
-// ----------------- EVENT LISTENERS
 
+
+// ----------------- EVENT LISTENERS
 
 inputEl.addEventListener("keyup", (e) => {
     usersInput = e.target.value;
@@ -17,15 +24,16 @@ inputEl.addEventListener("keyup", (e) => {
 
 document.addEventListener("DOMContentLoaded", backgroundImage);
 formEl.addEventListener("submit", addOrModify);
-listContainerEl.addEventListener("click,", markAsCompletedItem);
+listContainerEl.addEventListener("click", markAsCompletedItem);
 listContainerEl.addEventListener("click", deleteItem);
 listContainerEl.addEventListener("click", setAsUpdatingItem);
+selectEl.addEventListener("change", filterCompletedItems);
 
 
 
 
-// ----------------- Helper functions
 
+// ----------------- Other functions
 
 //funcs that adds a background image when there are not any items yet
 function backgroundImage() {
@@ -43,6 +51,32 @@ function backgroundImage() {
 }
 
 
+function filterCompletedItems(e){
+
+    const filter = e.target.value;
+
+    for(let i = 0; i < listContainerItems.length; i++){
+        const listItem = listContainerItems[i];
+        const itemsInsideListItem = listItem.children;
+        const checkbox = itemsInsideListItem[0];
+        listItem.style.display = "flex"; //once clicked on any of the options in the select btn, we first apply this style, to make all elements visible, then depending condition below, this func will hide or reveal the selected items
+
+        if(filter === "completed" && !checkbox.checked){
+            listItem.style.display = "none";
+            
+        }
+
+        if(filter === "pending" && checkbox.checked){
+            listItem.style.display = "none";
+        }
+    }
+}
+
+
+
+
+// ----------------- Helper functions
+
 function addOrModify(e){
     e.preventDefault();
 
@@ -58,9 +92,6 @@ function addOrModify(e){
         updateListItem();
     }
 }
-
-
-
 
 function addNewListItem(){
     const newLiEl = document.createElement("li");
@@ -95,22 +126,22 @@ function addNewListItem(){
     listContainerEl.append(newLiEl);
     inputEl.value = "";
     backgroundImage(); //After each new item submitted We call the function that checks if list is empty or not to add or remove background
+    // syncAddedItemsWithTracker(listContainerItems);
+
 }
-
-
-
 
 
 // Func -- mark as completed or unmark it -- We add eventListener to the checkboxes using event delegation
 
 function markAsCompletedItem(e){
     const target = e.target;
-
+    
     // if(target.tagName === "BUTTON") we toggle the ".completed" css class on the paragraph element inside the list item
     if(target.matches("input")){
         const updateBtnEl = target.parentElement.children[2].children[1];
         const pEl  = target.parentElement.children[1];
         pEl.classList.toggle("completed");
+
 
         if(pEl.classList.contains("completed")){
             updateBtnEl.style.backgroundColor = "#ddd";
@@ -120,9 +151,12 @@ function markAsCompletedItem(e){
             updateBtnEl.style.backgroundColor = "#bbb";
             updateBtnEl.disabled = false;
         }
-    }
-}
 
+        // syncCompletedItemsWithTracker(tracker, pEl, target);
+    }
+
+
+}
 
 
 // Function to delete list item -- Event delegation to add the event listener to each of the listItem's buttons that will be generated dynamically
@@ -133,6 +167,8 @@ function deleteItem(e){
     if(target.tagName === "BUTTON" && !target.classList.contains("updateBtn")) {
         target.parentElement.parentElement.remove();
         backgroundImage();
+        // syncDeletedItemWithTracker(listContainerItems);
+        console.log(tracker);
     }else {
         return;
     }
@@ -190,3 +226,8 @@ function updateListItem(){
         arrayFromList[i].classList.remove("updateActive");
     }
 }
+
+
+
+
+//task persistency --- localStorage
