@@ -1,14 +1,30 @@
+//DOM elements
+
 const listContainerEl = document.querySelector(".listContainer");
 const formEl = document.querySelector("form");
 const inputEl = formEl.firstElementChild;
 let usersInput;
 let isUpdating = false;
 
+
+
+// ----------------- EVENT LISTENERS
+
+
 inputEl.addEventListener("keyup", (e) => {
     usersInput = e.target.value;
 })
 
 document.addEventListener("DOMContentLoaded", backgroundImage);
+formEl.addEventListener("submit", addOrModify);
+listContainerEl.addEventListener("click,", markAsCompletedItem);
+listContainerEl.addEventListener("click", deleteItem);
+listContainerEl.addEventListener("click", setAsUpdatingItem);
+
+
+
+
+// ----------------- Helper functions
 
 
 //funcs that adds a background image when there are not any items yet
@@ -27,8 +43,7 @@ function backgroundImage() {
 }
 
 
-// Func -- Add new Task
-formEl.addEventListener("submit", (e) => {
+function addOrModify(e){
     e.preventDefault();
 
     if(!usersInput) {
@@ -36,19 +51,16 @@ formEl.addEventListener("submit", (e) => {
         return;
     }
 
-
     if(!isUpdating) {
         addNewListItem();
     }
     else{
         updateListItem();
     }
-
-})
-
+}
 
 
-// Func -- Add new list item 
+
 
 function addNewListItem(){
     const newLiEl = document.createElement("li");
@@ -87,9 +99,11 @@ function addNewListItem(){
 
 
 
+
+
 // Func -- mark as completed or unmark it -- We add eventListener to the checkboxes using event delegation
 
-listContainerEl.addEventListener("click", (e) => {
+function markAsCompletedItem(e){
     const target = e.target;
 
     // if(target.tagName === "BUTTON") we toggle the ".completed" css class on the paragraph element inside the list item
@@ -107,13 +121,13 @@ listContainerEl.addEventListener("click", (e) => {
             updateBtnEl.disabled = false;
         }
     }
+}
 
-})
 
 
 // Function to delete list item -- Event delegation to add the event listener to each of the listItem's buttons that will be generated dynamically
 
-listContainerEl.addEventListener("click", (e) => {
+function deleteItem(e){
     const target = e.target;
 
     if(target.tagName === "BUTTON" && !target.classList.contains("updateBtn")) {
@@ -122,16 +136,15 @@ listContainerEl.addEventListener("click", (e) => {
     }else {
         return;
     }
-})
-
-
+}
 
 
 
 
 //add event listener to the updateBtn - when clicked, we toggle classList to let user know they can update the task in the item, we change the "isUpdating" variable - if "isUpdating" is set to TRUE, we pick the current text from the listItem and put it in the input and we focus it so that user knows He can modify now
 
-listContainerEl.addEventListener("click", (e) => {
+
+function setAsUpdatingItem(e) {
     const target = e.target;
     
     
@@ -151,8 +164,9 @@ listContainerEl.addEventListener("click", (e) => {
 
         }
     }
-    
-})
+}
+
+
 
 // Func -- Update List Item  --- 
 
