@@ -27,7 +27,7 @@ formEl.addEventListener("submit", addOrModify);
 listContainerEl.addEventListener("click", markAsCompletedItem);
 listContainerEl.addEventListener("click", deleteItem);
 listContainerEl.addEventListener("click", setAsUpdatingItem);
-selectEl.addEventListener("change", filterCompletedItems);
+selectEl.addEventListener("change", filterItems);
 
 
 
@@ -51,7 +51,7 @@ function backgroundImage() {
 }
 
 
-function filterCompletedItems(e){
+function filterItems(e){
 
     const filter = e.target.value;
 
