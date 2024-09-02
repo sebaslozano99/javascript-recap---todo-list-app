@@ -31,26 +31,26 @@
 
     <main>
 
-        <form>
-            <!-- <label>Add new Task</label> -->
-            <input type="text" placeholder="wake up">
-            <button class="addItem" >Add</button>
-        </form>
+        <div >
+            <select name="filter" id="filter">
+                <option value="all">All</option>
+                <option value="completed">Completed</option>
+                <option value="pending">Pending</option>
+            </select>
+
+            <form>
+                <!-- <label>Add new Task</label> -->
+                <input type="text" placeholder="wake up" maxlength="30" >
+                <button class="addItem" >Add</button>
+            </form>
+        </div>
+
     
         <ul class="listContainer"    >
-            
-
+        
         </ul>
 
     </main>
-
-    <footer>
-        <select name="filter" id="filter">
-            <option value="all">All</option>
-            <option value="completed">Completed</option>
-            <option value="pending">Pending</option>
-        </select>
-    </footer>
     
     <script src="/index.js"></script>
 </body>

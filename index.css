@@ -45,7 +45,19 @@
 
 
 
+
+main div {
+    /* border: 2px dashed red; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2em;
+}
+
+
+
 form {
+    width: 80%;
     /* border: 2px dashed blue; */
     display: flex;
     justify-content: center;
@@ -87,8 +99,9 @@ main .listContainer {
     max-width: 80%;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 50px);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    /* grid-template-rows: repeat(3, 50px); */
+    align-items: self-start;
     grid-auto-rows: 50px;
     gap: 1em;
     list-style: none;
@@ -114,6 +127,7 @@ main .listContainer li {
     border-radius: 10px;
     transition: transform ease-in-out .3s;
     cursor: pointer;
+    min-height: 50px;
 }
 
 main .listContainer li:hover {
@@ -131,12 +145,20 @@ main .listContainer li:hover {
 
 main .listContainer li input[type="checkbox"] {
     background-color: red;
+    cursor: pointer;
 }
 
 
 
 
-
+main .listContainer p {
+    max-width: 50%;
+    margin: 0 1em;
+    /* border: 1px solid red; */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 
 main .listContainer li div{
@@ -165,6 +187,22 @@ main .listContainer li div button img{
     /* border: 1px solid red; */
 
 }
+
+main .listContainer li div button:active {
+    background-color: red;
+}
+
+
+main .listContainer li div button:hover {
+    transform: scale(1.1);
+}
+
+/* applied to update button when the task has been completed  */
+.btnDisabled { 
+    background-color: rgb(221, 221, 221);
+}
+
+
 
 
 .updateActive {
