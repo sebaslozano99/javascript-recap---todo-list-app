@@ -152,12 +152,13 @@ main .listContainer li input[type="checkbox"] {
 
 
 main .listContainer p {
-    max-width: 50%;
+    width: 50%;
     margin: 0 1em;
     /* border: 1px solid red; */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-align: center;
 }
 
 

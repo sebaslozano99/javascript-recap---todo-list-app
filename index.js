@@ -18,12 +18,12 @@ let isUpdating = false;
 
 // Event Listeners -----------------------
 
-window.addEventListener("DOMContentLoaded", renderUI);
+window.addEventListener("DOMContentLoaded", renderUI(tasks));
 formEl.addEventListener("submit", addOrModify);
 listContainerEl.addEventListener("click", markAsCompletedItem);
 listContainerEl.addEventListener("click", deleteTask);
 listContainerEl.addEventListener("click", setAsUpdatingItem);
-filterEl.addEventListener("change", filterItems);
+filterEl.addEventListener("change", filterTasks);
 
 
 
@@ -46,13 +46,10 @@ function addOrModify(e){
 
 
 
-
-
-
 // Helper Functions -----------------------
 
-function renderUI(){
-    if(!tasks.length) {
+function renderUI(array){
+    if(!array.length) {
         listContainerEl.classList.remove("listContainer");
         listContainerEl.classList.add("emptyList");
     }
@@ -60,7 +57,22 @@ function renderUI(){
         listContainerEl.classList.remove("emptyList");
         listContainerEl.classList.add("listContainer");
         let html = "";
-        tasks.forEach((task) => {
+
+        const filteredArray = tasks.filter((task) => {
+        if(filter === "pending") {
+            return !task.isCompleted && task;
+        }
+        if(filter === "completed") {
+            return task.isCompleted && task;
+        }
+        if(filter === "all") {
+            return task;
+        }
+           
+    })
+        
+
+        filteredArray.forEach((task) => {
             let segment = `
             <li>
                 <input type="checkbox" ${task.isCompleted && "checked"}  />
@@ -96,7 +108,7 @@ function addNewListItem(){
     console.log(tasks);
     setLocalStorage();
     inputEl.value = "";
-    renderUI();
+    renderUI(tasks);
 }
 
 
@@ -115,6 +127,7 @@ function markAsCompletedItem(e){
         const pEl  = target.parentElement.children[1];
         pEl.classList.toggle("completed");
 
+        // search array for object that user clicked, and update "isCompleted" variable
         tasks.forEach((element) => {
             if(element.usersInput === pEl.innerText) {
                 element.isCompleted = !element.isCompleted;
@@ -131,9 +144,9 @@ function markAsCompletedItem(e){
             updateBtnEl.style.backgroundColor = "#bbb";
             updateBtnEl.disabled = false;
         }
-
     }
 
+    renderUI(tasks);
 
 }
 
@@ -146,7 +159,7 @@ function deleteTask(e){
         const filteredTasks = tasks.filter(task => task.usersInput !== pEl.innerText ? task : null);
         tasks = [...filteredTasks];
         listContainerEl.innerHTML = "";
-        renderUI();
+        renderUI(tasks);
         setLocalStorage();
     }
 }
@@ -184,6 +197,7 @@ function setAsUpdatingItem(e) {
 }
 
 
+
 function updateListItem(){
     const updatedTask = inputEl.value.trim();
     tasks.forEach((task) => {
@@ -194,17 +208,15 @@ function updateListItem(){
     })
     setLocalStorage();
     inputEl.value = "";
-    renderUI();
+    renderUI(tasks);
     isUpdating = !isUpdating;
 
 }
 
 
-function filterItems(e){
-    console.log(e);
-    const target = e.target;
-    const targetValue = target.value;
-    console.log(targetValue);
 
-    
+function filterTasks(e){
+    const target = e.target;
+    filter = target.value;
+    renderUI(tasks);
 }
