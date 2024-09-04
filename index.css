@@ -5,15 +5,13 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-/* body {
-    border: 4px dashed goldenrod;
-} */
+
+
 
 
 #header {
     width: 100%;
-    height: 8vh;
-    background-color: #ddd;
+    height: 12vh;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -23,11 +21,6 @@
     display: flex;
     list-style: none;
 }
-
-/* #header ul li {
-    border: 1px solid red;
-    
-} */
 
 #header ul li a {
     /* border: 1px dashed green; */
@@ -39,20 +32,56 @@
 }
 
 #header ul li a:hover {
-    background-color: #eee;
+    color: #4181F7;
 }
 
 
 
+
+
+
+
+
+
+main {
+    height: 78vh;
+    /* border: 5px solid goldenrod; */
+}
 
 
 main div {
     /* border: 2px dashed red; */
+    min-height: 10%;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 2em;
 }
+
+main div .filterAndClear {
+    width: 20%;
+    /* border: 3px dotted red; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+main div .filterAndClear button {
+    cursor: pointer;
+    border-style: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    background-color: #ddd;
+    transition: all ease-in-out .3s;
+}
+
+main div .filterAndClear button:hover {
+    transform: scale(1.1);
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+}
+
+
+
 
 
 
@@ -72,11 +101,19 @@ form input {
 }
 
 form button {
-    /* padding: 1em 2 em; */
-    width: 5em;
     cursor: pointer;
+    border-style: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    background-color: #ddd;
+    transition: all ease-in-out .3s;
 }
 
+
+form button:hover {
+    transform: scale(1.1);
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+}
 
 
 
@@ -84,7 +121,7 @@ form button {
 
 main .emptyList {
     /* border: 2px solid red; */
-    height: 80vh;
+    height: 87%;
     max-width: 80%;
     margin: 0 auto;
     list-style: none;
@@ -92,32 +129,22 @@ main .emptyList {
     background-image: url(./images/empty-box.png);
     background-repeat: no-repeat; 
     background-position: center;
+    background-size: contain;
 }
 
 main .listContainer {
-    height: 80vh;
+    height: 90%;
     max-width: 80%;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    /* grid-template-rows: repeat(3, 50px); */
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     align-items: self-start;
     grid-auto-rows: 50px;
     gap: 1em;
     list-style: none;
     padding: 1em;
+    overflow-y: auto;
 }
-
-.empty-list {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* main ul video {
-    width: 100%;
-    height: auto;
-} */
 
 main .listContainer li {
     border: 0.5px solid rgba(0, 0, 0, 0.4);
@@ -128,6 +155,7 @@ main .listContainer li {
     transition: transform ease-in-out .3s;
     cursor: pointer;
     min-height: 50px;
+    background-color: #fff;
 }
 
 main .listContainer li:hover {
@@ -141,15 +169,10 @@ main .listContainer li:hover {
     color: #bbb;
 }
 
-
-
 main .listContainer li input[type="checkbox"] {
     background-color: red;
     cursor: pointer;
 }
-
-
-
 
 main .listContainer p {
     width: 50%;
@@ -161,14 +184,12 @@ main .listContainer p {
     text-align: center;
 }
 
-
 main .listContainer li div{
     /* border: 1px solid red; */
     display: flex;
     align-items: center;
     gap: 0.5em;
 }
-
 
 main .listContainer li div button {
     padding: 0.3em;
@@ -203,12 +224,10 @@ main .listContainer li div button:hover {
     background-color: rgb(221, 221, 221);
 }
 
-
-
-
 .updateActive {
-    background-color: rgb(206, 225, 255);
-    /* border: 10px solid red; */
+    background-color: rgb(0, 98, 255);
+    color: #4181F7;
+    border: 1px solid #4181F7;
 }
 
 
@@ -222,4 +241,22 @@ main .listContainer li div button:hover {
 /* when user filters only "completed", we'll hide the pending items, and vicesversa   */
 main .listContainer li .filter--hide {
     display: none;
+}
+
+
+
+
+
+/* ---- footer ---- */
+
+footer {
+    width: 100%;
+    height: 12vh;
+    background-color: #ddd;
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

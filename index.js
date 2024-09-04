@@ -4,7 +4,8 @@ const listContainerEl = document.querySelector(".listContainer");
 const formEl = document.querySelector("form");
 const inputEl = document.querySelector("input");
 const filterEl = document.querySelector("#filter");
-
+const tasksTrackerEl = document.querySelector(".tasks-tracker");
+const clearBtnEl = document.querySelector(".clearBtn");
 
 
 // State Variables -----------------------
@@ -24,7 +25,7 @@ listContainerEl.addEventListener("click", markAsCompletedItem);
 listContainerEl.addEventListener("click", deleteTask);
 listContainerEl.addEventListener("click", setAsUpdatingItem);
 filterEl.addEventListener("change", filterTasks);
-
+clearBtnEl.addEventListener("click", clearHandler);
 
 
 // Other Functions ------------------------
@@ -45,20 +46,41 @@ function addOrModify(e){
 }
 
 
+function emptyOrFilledClassList(classToRemove, classToAdd){
+    listContainerEl.classList.remove(classToRemove);
+    listContainerEl.classList.add(classToAdd);
+}
+
+
+
+function displayFooterProgress(){
+    if(!tasks.length) tasksTrackerEl.innerText = "Start Adding Tasks to your List!";
+    else {
+        const numberOFtasks = tasks.length;
+        const tasksCompleted = tasks.filter((task) => {
+            return task.isCompleted && task;
+        });
+        const numberOfTasksCompleted = tasksCompleted.length;
+        const percentage = (numberOfTasksCompleted / numberOFtasks) * 100;
+        tasksTrackerEl.innerText = numberOfTasksCompleted > 0 ? `You have ${numberOFtasks} tasks in your list! You've completed ${numberOfTasksCompleted} out of ${numberOFtasks} (${percentage.toFixed(0)}%)` : "Start working on your tasks!";
+    }
+}
+
 
 // Helper Functions -----------------------
 
 function renderUI(array){
+    let filteredArray;
+
     if(!array.length) {
-        listContainerEl.classList.remove("listContainer");
-        listContainerEl.classList.add("emptyList");
+        // remove "listContainer" class from listContainerEl and add "emptyList" class to it
+        emptyOrFilledClassList("listContainer", "emptyList");
     }
     else {
-        listContainerEl.classList.remove("emptyList");
-        listContainerEl.classList.add("listContainer");
+        emptyOrFilledClassList("emptyList", "listContainer");
         let html = "";
 
-        const filteredArray = tasks.filter((task) => {
+        filteredArray = array.filter((task) => {
         if(filter === "pending") {
             return !task.isCompleted && task;
         }
@@ -68,13 +90,13 @@ function renderUI(array){
         if(filter === "all") {
             return task;
         }
-           
-    })
-        
+
+    }) 
+        if(!filteredArray.length) emptyOrFilledClassList("listContainer", "emptyList");
 
         filteredArray.forEach((task) => {
             let segment = `
-            <li>
+            <li >
                 <input type="checkbox" ${task.isCompleted && "checked"}  />
                 <p class="${task.isCompleted && "completed"}" >${task.usersInput}</p>
                 <div>
@@ -92,7 +114,8 @@ function renderUI(array){
         listContainerEl.innerHTML = html;
         html = ""
     }
-
+    displayFooterProgress();
+    console.log(tasks);
 }
 
 
@@ -105,7 +128,6 @@ function addNewListItem(){
         isCompleted: false,
         isUpdating: false,
     });
-    console.log(tasks);
     setLocalStorage();
     inputEl.value = "";
     renderUI(tasks);
@@ -171,8 +193,8 @@ function setAsUpdatingItem(e) {
 
     if(target.matches(".updateBtn")) {
         const pElValueReference = target.parentElement.parentElement.children[1].textContent;
-        isUpdating = !isUpdating;
         target.parentElement.parentElement.classList.toggle("updateActive");
+        isUpdating = !isUpdating;
 
         tasks.forEach((task) => {
             if(task.usersInput === pElValueReference) {
@@ -191,6 +213,8 @@ function setAsUpdatingItem(e) {
             inputEl.value = "";
             document.querySelector(".addItem").innerText = "Add";  
         }
+
+        renderUI(tasks);
         
     }
 
@@ -219,4 +243,36 @@ function filterTasks(e){
     const target = e.target;
     filter = target.value;
     renderUI(tasks);
+}
+
+
+function clearHandler(){
+    if(!tasks.length) return;
+
+    const confirm = window.confirm(`Are you sure you want to delete ${filter} tasks?`);
+
+
+    if(confirm){
+
+        if(filter === "all"){
+            tasks.length = 0;
+        }   
+
+        const filteredArray = tasks.filter(element => {
+            if(filter === "pending"){
+                return element.isCompleted && element;
+            }
+    
+            if(filter === "completed"){
+                return !element.isCompleted && element;
+            }
+        })
+
+        tasks = [...filteredArray];
+        setLocalStorage();
+        listContainerEl.innerHTML = "";
+        console.log(tasks);
+        renderUI(tasks);
+    }
+
 }

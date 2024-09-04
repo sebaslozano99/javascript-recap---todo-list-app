@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Delegation | Todo List</title>
     <link rel="stylesheet" href="index.css">
+    <script src="/index.js" defer></script>
 </head>
 <body>
 
@@ -31,12 +32,17 @@
 
     <main>
 
-        <div >
-            <select name="filter" id="filter">
-                <option value="all">All</option>
-                <option value="completed">Completed</option>
-                <option value="pending">Pending</option>
-            </select>
+        <div>
+
+            <div class="filterAndClear" >
+                <select name="filter" id="filter">
+                    <option value="all">All</option>
+                    <option value="completed">Completed</option>
+                    <option value="pending">Pending</option>
+                </select>
+
+                <button class="clearBtn" >Clear</button>
+            </div>
 
             <form>
                 <!-- <label>Add new Task</label> -->
@@ -51,7 +57,10 @@
         </ul>
 
     </main>
+
+    <footer>
+        <p class="tasks-tracker" >Start adding tasks to your List!</p>
+    </footer>
     
-    <script src="/index.js"></script>
 </body>
 </html>
