@@ -238,9 +238,7 @@ main .listContainer li div button:hover {
     background-color: rgb(221, 221, 221);
 }
 
-.updateActive {
-    background-color: rgb(0, 98, 255);
-    color: #4181F7;
+main .listContainer .updateActive {
     border: 1px solid #4181F7;
 }
 

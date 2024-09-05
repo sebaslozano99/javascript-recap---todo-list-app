@@ -1,4 +1,4 @@
-import { listContainerEl, tasks, filter, usersInput } from "./src/common.js";
+import { listContainerEl, tasks, filter } from "./src/common.js";
 import { emptyOrFilledClassList, displayFooterProgress } from "./src/otherFunctions.js";
 
 
@@ -45,7 +45,7 @@ export function renderUI(array){
         let html = "";
         filteredArray.forEach((task) => {
             let segment = `
-            <li >
+            <li class=${task.isUpdating ? "updateActive":  ""}  >
                 <input type="checkbox" ${task.isCompleted && "checked"} ${task.isUpdating && "disabled"}  />
                 <p class="${task.isCompleted && "completed"}" >${task.usersInput}</p>
                 <div>
@@ -66,5 +66,5 @@ export function renderUI(array){
     }
 
     displayFooterProgress();
-    console.log(tasks);
 }
+

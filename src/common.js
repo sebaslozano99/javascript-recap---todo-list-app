@@ -20,17 +20,12 @@ export const addBtnEl = document.querySelector(".addItem");
 export let tasks = JSON.parse(localStorage.getItem("tasks")) || []; 
 export let usersInput = null;
 export let filter = "all";
-export let isUpdating = false;
 
 
 
 // Functions to change variables in a different module
 export function setUsersInput(newValue){
     usersInput = newValue;
-}
-
-export function setIsUpdating(){
-    isUpdating = !isUpdating;
 }
 
 export function setTasks(newValue){

@@ -1,4 +1,4 @@
-import { listContainerEl, inputEl, addBtnEl, isUpdating, tasks, setIsUpdating, setTasks, renderUIandSetLocalStorage } from "../common.js";
+import { listContainerEl, inputEl, addBtnEl, tasks, setTasks, renderUIandSetLocalStorage } from "../common.js";
 import { resetUIofInputElAndAddBtnEl } from "../otherFunctions.js";
 import { renderUI } from "../../index.js";
 
@@ -51,7 +51,8 @@ function deleteTask(e){
         const pEl = target.parentElement.parentElement.children[1];
         const filteredTasks = tasks.filter(task => task.usersInput !== pEl.innerText ? task : null);
 
-        if(isUpdating) setIsUpdating(); //if user was modifying a task, but deletes the task before completing the modification, we change the "isUpdating" status.
+        //if user was modifying a task, but deletes the task before completing the modification, we change the "isUpdating" status.
+        // if(isUpdating) setIsUpdating();
 
         listContainerEl.innerHTML = "";
         resetUIofInputElAndAddBtnEl("", "Add"); //in case user was about to modify a task, but deletes it without modifying it, we remove the text from the input and change the text in the submit btn to "Add".
@@ -69,20 +70,27 @@ function setAsUpdatingItem(e) {
     const target = e.target;
 
     if(target.matches(".updateBtn")) {
-        const pElValueReference = target.parentElement.parentElement.children[1].textContent;
-        target.parentElement.parentElement.classList.toggle("updateActive");
-        setIsUpdating(); //change "isUpdating" boolena variable from false to true or vicesersa
 
-        //The specific task clicked by user, we'll find it looping through "tasks" array and change it's value in "isUpdating" key
+         const pElValueReference = target.parentElement.parentElement.children[1].textContent;
+
+        // set all tasks's isUpdating property to false - in case user had previously one task's isUpdating property set as TRUE, and clicked on "updateBtn" before updating the previous one.
+        tasks.forEach((task) => {
+            if(task.usersInput !== pElValueReference && task.isUpdating)
+            task.isUpdating = false;
+        }) 
+
+        //The specific task clicked by user, we'll find it looping through "tasks" array and toggle it's "isUpdating" property value
         tasks.forEach((task) => {
             if(task.usersInput === pElValueReference) {
                 task.isUpdating = !task.isUpdating;
             }
         })
+
+        const isUpdating = tasks.some(task => task.isUpdating === true);
         
         if(isUpdating){
             addBtnEl.innerText = "Modify";  
-
+        
             //find the object in the "tasks" array that matches the task's paragraph/text.
             const filteredItem = tasks.filter((task) => {
                 return task.usersInput === pElValueReference;

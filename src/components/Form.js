@@ -1,4 +1,4 @@
-import { formEl, inputEl, isUpdating, usersInput, tasks, setUsersInput, setIsUpdating, renderUIandSetLocalStorage } from "../common.js";
+import { formEl, inputEl, usersInput, tasks, setUsersInput, renderUIandSetLocalStorage } from "../common.js";
 import { resetUIofInputElAndAddBtnEl } from "../otherFunctions.js";
 
 
@@ -9,6 +9,7 @@ formEl.addEventListener("submit", addOrModify);
 
 export function addOrModify(e){
     e.preventDefault();
+    const isUpdating = tasks.some(task => task.isUpdating === true);
 
     if(!inputEl.value) {
         return;
@@ -49,8 +50,6 @@ function updateListItem(){
 
     resetUIofInputElAndAddBtnEl("", "Add"); //we empty the input field and change to "Add" the submitBtn textContent
     renderUIandSetLocalStorage();
-    setIsUpdating();
-
 }
 
 
