@@ -2,7 +2,7 @@ javascript Recap
 
 
 
-Todo List app - model 1.0:
+Todo List app:
 
 functionalities: 
 
@@ -14,3 +14,10 @@ Each object contains 3 properties:
 	* isCompleted - boolean
 	* isDeleted --- boolean - once this is true the object will be 
 	erased
+
+ new functionalities added:
+
+Code was split up in modules and refactored.
+* User can filter tasks (pending, completed, all)
+* User can clear tasks (pending, completed, all)
+* LocalStorage added
