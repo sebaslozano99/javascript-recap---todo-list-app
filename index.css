@@ -85,6 +85,9 @@ main div .filterAndClear button:hover {
 
 
 
+
+
+
 form {
     width: 80%;
     /* border: 2px dashed blue; */
@@ -98,7 +101,13 @@ form input {
     padding: 0.5em;
     width: 20em;
     outline: none;
+    transition: all ease-in-out .3s;
 }
+
+.newTaskAddedOrModified {
+    border: 2px solid rgb(124, 193, 21);
+}
+
 
 form button {
     cursor: pointer;
@@ -114,6 +123,10 @@ form button:hover {
     transform: scale(1.1);
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
 }
+
+
+
+
 
 
 
@@ -144,6 +157,7 @@ main .listContainer {
     list-style: none;
     padding: 1em;
     overflow-y: auto;
+    /* border: 5px solid red; */
 }
 
 main .listContainer li {
@@ -235,6 +249,9 @@ main .listContainer li div button:hover {
 
 
 
+
+
+
 /* Filtering items when completed  */
 
 
@@ -242,6 +259,10 @@ main .listContainer li div button:hover {
 main .listContainer li .filter--hide {
     display: none;
 }
+
+
+
+
 
 
 
